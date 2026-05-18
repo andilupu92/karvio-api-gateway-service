@@ -26,7 +26,7 @@ jobs:
       - name: Build and test with Coverage
         run: mvn clean verify -B
 
-      # SonarCloud analysis that automatically retrieves the test coverage report (JaCoCo)
+      # SonarCloud analysis that automatically retrieves the test coverage report(JaCoCo)
       - name: SonarCloud Scan
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
