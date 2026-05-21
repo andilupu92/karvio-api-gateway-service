@@ -1,5 +1,6 @@
 package autoTrace.security;
 
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
@@ -41,8 +42,9 @@ public class JwtSecurityContextRepository implements ServerSecurityContextReposi
 
         // Build a pre-auth token and let the manager validate it
         Authentication preAuth = new UsernamePasswordAuthenticationToken(token, token);
-
-        return authenticationManager.authenticate(preAuth)
+        Mono<SecurityContext> contextMono = authenticationManager.authenticate(preAuth)
                 .map(SecurityContextImpl::new);
+
+        return contextMono.onErrorResume(BadCredentialsException.class, e -> Mono.empty());
     }
 }
