@@ -98,11 +98,11 @@ resilience4j:
   timelimiter:
     instances:
       auto-auth-service-circuitbreaker:
-        timeoutDuration: 3s
+        timeoutDuration: 10s
       auto-car-service-circuitbreaker:
-        timeoutDuration: 3s
+        timeoutDuration: 10s
       auto-document-service-circuitbreaker:
-        timeoutDuration: 3s
+        timeoutDuration: 10s
 
 management:
   endpoints:
