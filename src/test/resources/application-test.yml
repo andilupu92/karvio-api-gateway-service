@@ -1,0 +1,41 @@
+server:
+  port: 8080
+
+jwt:
+  secret: "34AZwk3RmJh0TmQXCjE6uGihQ4Qb4ytD3MXLQgdLtfQ"
+
+spring:
+  main:
+    web-application-type: reactive
+  application:
+    name: karvio-api-gateway-service
+  cloud:
+    consul:
+      enabled: false
+      discovery:
+        enabled: false
+    gateway:
+      server:
+        webflux:
+          globalcors:
+            corsConfigurations:
+              '[/**]':
+                allowedOrigins: "http://localhost:3000"
+                allowedMethods:
+                  - GET
+                  - POST
+                  - PUT
+                  - DELETE
+                  - PATCH
+                allowedHeaders: "*"
+                exposedHeaders:
+                  - Authorization
+                allowCredentials: true
+          discovery:
+            locator:
+              enabled: false
+
+management:
+  health:
+    consul:
+      enabled: false
