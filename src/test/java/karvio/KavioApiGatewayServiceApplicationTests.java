@@ -1,10 +1,10 @@
-package autoTrace;
+package karvio;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class AutoApiGatewayServiceApplicationTests {
+class KavioApiGatewayServiceApplicationTests {
 
 	@Test
 	void contextLoads() {

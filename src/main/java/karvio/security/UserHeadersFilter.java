@@ -1,4 +1,4 @@
-package autoTrace.security;
+package karvio.security;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;

@@ -1,14 +1,14 @@
 server:
-  port: 8080
+  port: ${SERVER_PORT}
 
 jwt:
-  secret: "12345678901234567890123456789012"
+  secret: ${JWT_SECRET}
 
 spring:
   main:
     web-application-type: reactive
   application:
-    name: auto-api-gateway-service
+    name: karvio-api-gateway-service
 
   cloud:
     gateway:
@@ -17,11 +17,7 @@ spring:
           globalcors:
             corsConfigurations:
               '[/**]':
-                allowedOrigins:
-                  - "http://localhost:5173"
-                  - "http://10.0.2.2:8081"
-                  - "http://localhost:8081"
-                  - "http://192.168.1.144:8081"
+                allowedOrigins: ${CORS_ALLOWED_ORIGINS}
                 allowedMethods:
                   - GET
                   - POST
@@ -37,41 +33,41 @@ spring:
               enabled: true
               lower-case-service-id: true
           routes:
-            - id: auto-auth-service-route
-              uri: lb://auto-auth-service
+            - id: karvio-auth-service-route
+              uri: lb://karvio-auth-service
               predicates:
                 - Path=/auth/**
               filters:
                 - StripPrefix=1
                 - name: CircuitBreaker
                   args:
-                    name: auto-auth-service-circuitbreaker
-                    fallbackUri: /fallback/auto-auth-service-fallback
-            - id: auto-car-service-route
-              uri: lb://auto-car-service
+                    name: karvio-auth-service-circuitbreaker
+                    fallbackUri: /fallback/karvio-auth-service-fallback
+            - id: karvio-car-service-route
+              uri: lb://karvio-car-service
               predicates:
                 - Path=/car/**
               filters:
                 - StripPrefix=1
                 - name: CircuitBreaker
                   args:
-                    name: auto-car-service-circuitbreaker
-                    fallbackUri: /fallback/auto-car-service-fallback
-            - id: auto-document-service-route
-              uri: lb://auto-document-service
+                    name: karvio-car-service-circuitbreaker
+                    fallbackUri: /fallback/karvio-car-service-fallback
+            - id: karvio-document-service-route
+              uri: lb://karvio-document-service
               predicates:
                 - Path=/document/**
               filters:
                 - StripPrefix=1
                 - name: CircuitBreaker
                   args:
-                    name: auto-document-service-circuitbreaker
-                    fallbackUri: /fallback/auto-document-service-fallback
+                    name: karvio-document-service-circuitbreaker
+                    fallbackUri: /fallback/karvio-document-service-fallback
 
 resilience4j:
   circuitbreaker:
     instances:
-      auto-auth-service-circuitbreaker:
+      karvio-auth-service-circuitbreaker:
         slidingWindowSize: 10
         failureRateThreshold: 50
         waitDurationInOpenState: 10s
@@ -79,7 +75,7 @@ resilience4j:
         minimumNumberOfCalls: 5
         slowCallDurationThreshold: 2s
         slowCallRateThreshold: 50
-      auto-car-service-circuitbreaker:
+      karvio-car-service-circuitbreaker:
         slidingWindowSize: 10
         failureRateThreshold: 50
         waitDurationInOpenState: 10s
@@ -87,7 +83,7 @@ resilience4j:
         minimumNumberOfCalls: 5
         slowCallDurationThreshold: 2s
         slowCallRateThreshold: 50
-      auto-document-service-circuitbreaker:
+      karvio-document-service-circuitbreaker:
         slidingWindowSize: 10
         failureRateThreshold: 50
         waitDurationInOpenState: 10s
@@ -97,11 +93,11 @@ resilience4j:
         slowCallRateThreshold: 50
   timelimiter:
     instances:
-      auto-auth-service-circuitbreaker:
+      karvio-auth-service-circuitbreaker:
         timeoutDuration: 10s
-      auto-car-service-circuitbreaker:
+      karvio-car-service-circuitbreaker:
         timeoutDuration: 10s
-      auto-document-service-circuitbreaker:
+      karvio-document-service-circuitbreaker:
         timeoutDuration: 10s
 
 management:
@@ -119,10 +115,8 @@ management:
     consul:
       enabled: true
 
-# Logging
 logging:
   level:
     root: INFO
-    auto.trace: DEBUG
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"

@@ -1,4 +1,4 @@
-package autoTrace.security;
+package karvio.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

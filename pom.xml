@@ -8,11 +8,11 @@
 		<version>3.5.10</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>auto.trace</groupId>
-	<artifactId>auto-api-gateway-service</artifactId>
+	<groupId>karvio</groupId>
+	<artifactId>karvio-api-gateway-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>auto-api-gateway-service</name>
-	<description>auto-api-gateway-service</description>
+	<name>karvio-api-gateway-service</name>
+	<description>karvio-api-gateway-service</description>
 	<url/>
 	<licenses>
 		<license/>

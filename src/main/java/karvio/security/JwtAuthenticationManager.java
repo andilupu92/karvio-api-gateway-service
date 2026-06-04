@@ -1,4 +1,4 @@
-package autoTrace.security;
+package karvio.security;
 
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.JWTVerificationException;

@@ -1,4 +1,4 @@
-name: auto-api-gateway-service CI Pipeline
+name: karvio-api-gateway-service CI Pipeline
 
 on:
   push:

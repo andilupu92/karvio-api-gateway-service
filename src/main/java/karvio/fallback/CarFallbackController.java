@@ -1,4 +1,4 @@
-package autoTrace.fallback;
+package karvio.fallback;
 
 import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.MeterRegistry;
@@ -21,27 +21,27 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 @RestController
-public class AuthFallbackController {
+public class CarFallbackController {
 
-    private static final Logger log = LoggerFactory.getLogger(AuthFallbackController.class);
+    private static final Logger log = LoggerFactory.getLogger(CarFallbackController.class);
 
     private final Counter fallbackCounter;
     private final Timer fallbackTimer;
 
-    public AuthFallbackController(MeterRegistry registry) {
+    public CarFallbackController(MeterRegistry registry) {
         this.fallbackCounter = Counter.builder("gateway.fallback.count")
                 .description("Number of fallback responses returned by gateway")
-                .tag("service", "auto-auth-service")
+                .tag("service", "karvio-car-service")
                 .register(registry);
 
         this.fallbackTimer = Timer.builder("gateway.fallback.latency")
                 .description("Latency of fallback handler")
-                .tag("service", "auto-auth-service")
+                .tag("service", "karvio-car-service")
                 .publishPercentiles(0.5, 0.95)
                 .register(registry);
     }
 
-    @RequestMapping("/fallback/auto-auth-service-fallback")
+    @RequestMapping("/fallback/karvio-car-service-fallback")
     public Mono<ResponseEntity<Map<String, Object>>> handleFallback(ServerWebExchange exchange) {
         String requestId = exchange.getRequest().getHeaders().getFirst("X-Request-Id");
 
@@ -54,13 +54,13 @@ public class AuthFallbackController {
 
         MDC.put("requestId", requestId);
         try {
-            log.warn("Fallback triggered for route auto-auth-service; path={} method={}",
+            log.warn("Fallback triggered for route karvio-car-service; path={} method={}",
                     exchange.getRequest().getPath(), exchange.getRequest().getMethod());
 
             Map<String, Object> body = Map.of(
                     "code", "SERVICE_UNAVAILABLE",
-                    "message", "The authentication service is temporarily unavailable. Please try again later.",
-                    "service", "auto-auth-service",
+                    "message", "The car service is temporarily unavailable. Please try again later.",
+                    "service", "karvio-car-service",
                     "timestamp", Instant.now().toString(),
                     "requestId", requestId
             );

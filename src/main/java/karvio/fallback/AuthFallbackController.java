@@ -1,4 +1,4 @@
-package autoTrace.fallback;
+package karvio.fallback;
 
 import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.MeterRegistry;
@@ -21,27 +21,27 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 @RestController
-public class DocumentFallbackController {
+public class AuthFallbackController {
 
-    private static final Logger log = LoggerFactory.getLogger(DocumentFallbackController.class);
+    private static final Logger log = LoggerFactory.getLogger(AuthFallbackController.class);
 
     private final Counter fallbackCounter;
     private final Timer fallbackTimer;
 
-    public DocumentFallbackController(MeterRegistry registry) {
+    public AuthFallbackController(MeterRegistry registry) {
         this.fallbackCounter = Counter.builder("gateway.fallback.count")
                 .description("Number of fallback responses returned by gateway")
-                .tag("service", "auto-document-service")
+                .tag("service", "karvio-auth-service")
                 .register(registry);
 
         this.fallbackTimer = Timer.builder("gateway.fallback.latency")
                 .description("Latency of fallback handler")
-                .tag("service", "auto-document-service")
+                .tag("service", "karvio-auth-service")
                 .publishPercentiles(0.5, 0.95)
                 .register(registry);
     }
 
-    @RequestMapping("/fallback/auto-document-service-fallback")
+    @RequestMapping("/fallback/karvio-auth-service-fallback")
     public Mono<ResponseEntity<Map<String, Object>>> handleFallback(ServerWebExchange exchange) {
         String requestId = exchange.getRequest().getHeaders().getFirst("X-Request-Id");
 
@@ -54,13 +54,13 @@ public class DocumentFallbackController {
 
         MDC.put("requestId", requestId);
         try {
-            log.warn("Fallback triggered for route auto-document-service; path={} method={}",
+            log.warn("Fallback triggered for route karvio-auth-service; path={} method={}",
                     exchange.getRequest().getPath(), exchange.getRequest().getMethod());
 
             Map<String, Object> body = Map.of(
                     "code", "SERVICE_UNAVAILABLE",
-                    "message", "The document service is temporarily unavailable. Please try again later.",
-                    "service", "auto-document-service",
+                    "message", "The authentication service is temporarily unavailable. Please try again later.",
+                    "service", "karvio-auth-service",
                     "timestamp", Instant.now().toString(),
                     "requestId", requestId
             );

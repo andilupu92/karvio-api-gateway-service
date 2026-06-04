@@ -1,7 +1,7 @@
 spring:
   config:
     activate:
-      on-profile: docker
+      on-profile: prod
 
   cloud:
     consul:
@@ -21,5 +21,6 @@ spring:
 
 logging:
   level:
-    org.springframework.cloud.consul: DEBUG
-    org.springframework.cloud.gateway: DEBUG
+    root: INFO
+    org.springframework.cloud.consul: WARN
+    org.springframework.cloud.gateway: WARN
