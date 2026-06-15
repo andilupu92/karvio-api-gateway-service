@@ -63,6 +63,16 @@ spring:
                   args:
                     name: karvio-document-service-circuitbreaker
                     fallbackUri: /fallback/karvio-document-service-fallback
+            - id: karvio-notification-service-route
+              uri: lb://karvio-notification-service
+              predicates:
+                - Path=/notification/**
+              filters:
+                - StripPrefix=1
+                - name: CircuitBreaker
+                  args:
+                    name: karvio-notification-service-circuitbreaker
+                    fallbackUri: /fallback/karvio-notification-service-fallback
 
 resilience4j:
   circuitbreaker:
@@ -91,6 +101,14 @@ resilience4j:
         minimumNumberOfCalls: 5
         slowCallDurationThreshold: 2s
         slowCallRateThreshold: 50
+      karvio-notification-service-circuitbreaker:
+        slidingWindowSize: 10
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10s
+        permittedNumberOfCallsInHalfOpenState: 3
+        minimumNumberOfCalls: 5
+        slowCallDurationThreshold: 2s
+        slowCallRateThreshold: 50
   timelimiter:
     instances:
       karvio-auth-service-circuitbreaker:
@@ -98,6 +116,8 @@ resilience4j:
       karvio-car-service-circuitbreaker:
         timeoutDuration: 10s
       karvio-document-service-circuitbreaker:
+        timeoutDuration: 10s
+      karvio-notification-service-circuitbreaker:
         timeoutDuration: 10s
 
 management:
