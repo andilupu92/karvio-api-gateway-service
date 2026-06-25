@@ -29,7 +29,7 @@ public class SecurityConfig {
                 .securityContextRepository(securityContextRepository)
                 .authorizeExchange(exchange -> exchange
                         .pathMatchers(HttpMethod.POST, "/auth/login", "/auth/register", "/auth/refresh",
-                                "/auth/forgot-password", "/auth/verify-otp", "/auth/reset-password").permitAll()
+                                "/auth/forgot-password", "/auth/verify-otp", "/auth/reset-password", "/auth/google", "/auth/apple").permitAll()
                         .pathMatchers("/swagger-ui/**", "/swagger-ui.html").permitAll()
                         .pathMatchers("/actuator/**").permitAll()
                         .anyExchange().authenticated()
